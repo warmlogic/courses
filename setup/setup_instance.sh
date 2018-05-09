@@ -13,7 +13,7 @@ if [ -z "$ami" ] || [ -z "$instanceType" ]; then
 fi
 
 # settings
-export name="fast-ai"
+export name="ansaro"
 export cidr="0.0.0.0/0"
 
 hash aws 2>/dev/null
@@ -44,7 +44,7 @@ aws ec2 create-tags --resources $routeTableId --tags --tags Key=Name,Value=$name
 export routeTableAssoc=$(aws ec2 associate-route-table --route-table-id $routeTableId --subnet-id $subnetId --output text)
 aws ec2 create-route --route-table-id $routeTableId --destination-cidr-block 0.0.0.0/0 --gateway-id $internetGatewayId
 
-export securityGroupId=$(aws ec2 create-security-group --group-name $name-security-group --description "SG for fast.ai machine" --vpc-id $vpcId --query 'GroupId' --output text)
+export securityGroupId=$(aws ec2 create-security-group --group-name $name-security-group --description "SG for $name $instanceType machine" --vpc-id $vpcId --query 'GroupId' --output text)
 # ssh
 aws ec2 authorize-security-group-ingress --group-id $securityGroupId --protocol tcp --port 22 --cidr $cidr
 # jupyter notebook
