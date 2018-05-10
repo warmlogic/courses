@@ -70,6 +70,7 @@ aws ec2 wait instance-running --instance-ids $instanceId
 sleep 10 # wait for ssh service to start running too
 export assocId=$(aws ec2 associate-address --instance-id $instanceId --allocation-id $allocAddr --query 'AssociationId' --output text)
 export instanceUrl=$(aws ec2 describe-instances --instance-ids $instanceId --query 'Reservations[0].Instances[0].PublicDnsName' --output text)
+export instanceIp=$(aws ec2 describe-instances --instance-ids $instanceId --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 #export ebsVolume=$(aws ec2 describe-instance-attribute --instance-id $instanceId --attribute  blockDeviceMapping  --query BlockDeviceMappings[0].Ebs.VolumeId --output text)
 
 # reboot instance, because I was getting "Failed to initialize NVML: Driver/library version mismatch"
@@ -92,6 +93,7 @@ echo export instanceId=$instanceId >> $name-commands.txt
 echo export subnetId=$subnetId >> $name-commands.txt
 echo export securityGroupId=$securityGroupId >> $name-commands.txt
 echo export instanceUrl=$instanceUrl >> $name-commands.txt
+echo export instanceIp=$instanceIp >> $name-commands.txt
 echo export routeTableId=$routeTableId >> $name-commands.txt
 echo export name=$name >> $name-commands.txt
 echo export vpcId=$vpcId >> $name-commands.txt
