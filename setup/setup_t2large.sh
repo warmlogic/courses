@@ -24,4 +24,4 @@ export ami=`aws ec2 describe-images \
 
 export instanceType="t2.large"
 
-. $(dirname "$0")/setup_instance.sh
+. $(dirname "$0")/setup_instance.sh $1
